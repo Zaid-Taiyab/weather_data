@@ -1,35 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Weather App</title>
-  <link rel="stylesheet" type="text/css" href="/style.css" />
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" />
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
   <div class="container">
     <h1>Weather Application</h1>
     <form action="/weather" method="get">
       <input type="text" name="city" placeholder="Enter city name" />
-      <button type="submit">Get Weather</button>
+      <button type="submit"><i class="fas fa-search"></i> Get Weather</button>
     </form>
     <% if (error) { %>
       <p class="error"><%= error %></p>
     <% } else if (weather) { %>
-      <div class="card">
-        <p>
-          <i class="fas fa-thermometer-half"></i>
-          <%= weather.main.temp %>&deg;F
-        </p>
-        <p>
-          <i class="fas fa-cloud"></i>
-          <%= weather.weather[0].main %>
-        </p>
-        <p>
-          <i class="fas fa-map-marker-alt"></i>
-          <%= weather.name %>, <%= weather.sys.country %>
-        </p>
+      <div class="weather-card <%= isCloudy ? 'cloudy' : 'clear' %> <%= isDayTime ? 'day' : 'night' %>">
+        <h2><%= weather.name %>, <%= weather.sys.country %></h2>
+        <p><%= new Date(weather.dt * 1000).toDateString() %></p>
+        <p class="temperature"><i class="fas fa-thermometer-half"></i> <%= Math.round(weather.main.temp) %>&deg;F</p>
+        <p class="condition"><i class="fas fa-cloud"></i> <%= weather.weather[0].main %></p>
       </div>
-      <div class="background-image <%= isCloudy ? 'cloudy' : 'clear' %> <%= isDayTime ? 'day' : 'night' %>"></div>
     <% } %>
   </div>
 </body>
